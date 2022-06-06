@@ -1,4 +1,5 @@
 from math import pi
+import math
 from material.texture import TextureMaterial
 from core_ext.mesh import Mesh
 from core_ext.texture import Texture
@@ -71,5 +72,8 @@ class TargetMesh(Mesh):
         self.add(self.mesh10)
         self.add(self.mesh11)
         self.add(self.mesh12)
+
+        self.rotate_x(math.pi/2)
+        self.scale(0.7)
 
         
