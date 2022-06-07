@@ -75,12 +75,9 @@ class Example(Base):
         self.point1 = PointLight(color=[1, 0, 0], position=[230, -2.9, 0])
         self.point2 = PointLight(color=[1, 0, 0], position=[200, -2.9, -8])
         self.point3 = PointLight(color=[1, 0, 0], position=[165, -2.9, 5])
-        self.point4 = PointLight(color=[1, 0, 0], position=[-0.3,5,20])
-        self.scene.add(self.ambient1)
-        self.scene.add(self.point1)
-        self.scene.add(self.point2)
-        self.scene.add(self.point3)
-        self.scene.add(self.point4)
+        self.point4 = PointLight(color=[1, 0, 0], position=[200,5,20])
+        self.scene.add(self.ambient3)
+
 
         vertex_shader_code = """
             uniform mat4 projectionMatrix;
@@ -1034,7 +1031,7 @@ class Example(Base):
         self.lives = 3
         self.angle = 0
         self.shooting = False
-        self.level = 4
+        self.level = 3
 
         self.tiro = -1
         self.collision = False
@@ -1309,8 +1306,16 @@ class Example(Base):
                 if self.level == 3 and (self.targetsCollided[3] == True or self.targetsCollided[4] == True or self.targetsCollided[5] == True):
                     self.scene.remove(self.ambient3)
                     self.scene.add(self.ambient4)
+                    self.scene.add(self.point1)
+                    self.scene.add(self.point2)
+                    self.scene.add(self.point3)
+                    self.scene.add(self.point4)
                 if self.level == 4 and (self.targetsCollided[6] == True or self.targetsCollided[7] == True or self.targetsCollided[8] == True):
                     self.scene.remove(self.ambient4)
+                    self.scene.remove(self.point1)
+                    self.scene.remove(self.point2)
+                    self.scene.remove(self.point3)
+                    self.scene.remove(self.point4)
                     self.scene.add(self.ambient5)
                 if self.level == 1:
                     self.wind = np.random.choice(np.arange(0, 6), p=[0.1, 0.25, 0.25, 0.15, 0.1, 0.15])
@@ -1344,6 +1349,10 @@ class Example(Base):
                     self.targetsCollided = [False for i in range(12)]
                 if self.level == 5 and (self.targetsCollided[6] == False or self.targetsCollided[7] == False or self.targetsCollided[8] == False):
                     self.scene.remove(self.ambient4)
+                    self.scene.remove(self.point1)
+                    self.scene.remove(self.point2)
+                    self.scene.remove(self.point3)
+                    self.scene.remove(self.point4)
                     self.scene.add(self.ambient1)
                     self.level=6
                     self.targetsCollided = [False for i in range(12)]

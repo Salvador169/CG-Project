@@ -23,15 +23,7 @@ class MovementRig(Object3D):
 
         # Customizable key mappings.
         # Defaults: W, A, S, D, R, F (move), Q, E (turn), T, G (look)
-        self.KEY_MOVE_FORWARDS = "w"
-        self.KEY_MOVE_BACKWARDS = "s"
-        self.KEY_MOVE_LEFT = "a"
-        self.KEY_MOVE_RIGHT = "d"
-        self.KEY_MOVE_DOWN = "f"
-        self.KEY_TURN_LEFT = "q"
-        self.KEY_TURN_RIGHT = "e"
-        self.KEY_LOOK_UP = "t"
-        self.KEY_LOOK_DOWN = "g"
+        self.INITIAL = "f"
         self.SHOOT = "mouse1"
         self.RELOAD = "r"
         self.shooting = False
@@ -64,15 +56,6 @@ class MovementRig(Object3D):
         return self.initial
 
     def update(self, input_object, delta_time):
-        move_amount = self._units_per_second * delta_time
-        if input_object.is_key_pressed(self.KEY_MOVE_FORWARDS):
-            self.translate(0, 0, -move_amount)
-        if input_object.is_key_pressed(self.KEY_MOVE_BACKWARDS):
-            self.translate(0, 0, move_amount)
-        if input_object.is_key_pressed(self.KEY_MOVE_LEFT):
-            self.translate(-move_amount, 0, 0)
-        if input_object.is_key_pressed(self.KEY_MOVE_RIGHT):
-            self.translate(move_amount, 0, 0)
         if input_object.is_key_pressed(self.SHOOT):
             self.power += 0.5
             if self.power > 100:
@@ -80,12 +63,7 @@ class MovementRig(Object3D):
         if input_object.is_key_up(self.SHOOT):
             self.shooting = True
             self.ready = False
-
-        if input_object.is_key_pressed(self.RELOAD):
-            self.shooting = False
-            self.ready = True
-            self.power = 0
-        if input_object.is_key_pressed(self.KEY_MOVE_DOWN):
+        if input_object.is_key_pressed(self.INITIAL):
             self._look_attachment.set_local_matrix(self.initial)
         self._look_attachment.rotate_x(-1 * (math.pi / 180) * (input_object.mouse_position[1]/300-1))
         self._look_attachment.rotate_y(-1 * (math.pi / 180) * (input_object.mouse_position[0]/400-1))
