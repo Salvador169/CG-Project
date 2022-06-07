@@ -25,7 +25,7 @@ class CylindricalGeometry(ParametricGeometry):
         if closed_bottom:
             bottom_geometry = PolygonGeometry(radial_segments, radius_bottom)
             transform = Matrix.make_translation(0, -height/2, 0) \
-                      @ Matrix.make_rotation_y(pi/2) \
-                      @ Matrix.make_rotation_x(pi/2)
+                      @ Matrix.make_rotation_y(-pi/2) \
+                      @ Matrix.make_rotation_x(-pi/2)
             bottom_geometry.apply_matrix(transform)
             self.merge(bottom_geometry)

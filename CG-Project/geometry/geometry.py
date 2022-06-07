@@ -1,3 +1,4 @@
+import numpy
 from core.attribute import Attribute
 
 
@@ -28,16 +29,36 @@ class Geometry:
         for old_pos in old_position_data:
             # Avoid changing list references
             new_pos = old_pos.copy()
-            # Add homogeneous fourth coordinate
+            # Add the homogeneous fourth coordinate
             new_pos.append(1)
             # Multiply by matrix
             new_pos = matrix @ new_pos
-            # Remove homogeneous coordinate
+            # Remove the homogeneous coordinate
             new_pos = list(new_pos[0:3])
-            # Add to new data list
+            # Add to the new data list
             new_position_data.append(new_pos)
         self._attribute_dict[variable_name]._data = new_position_data
-        # new data must be uploaded
+        # extract the rotation sub-matrix
+        rotation_matrix = numpy.array([matrix[0][0:3], 
+                                       matrix[1][0:3], 
+                                       matrix[2][0:3]])
+        old_vertex_normal_data = self._attribute_dict["vertexNormal"]._data
+        new_vertex_normal_data = []
+        for old_normal in old_vertex_normal_data:
+            new_normal = old_normal.copy()
+            new_normal = rotation_matrix @ new_normal
+            new_vertex_normal_data.append(new_normal)
+        self._attribute_dict["vertexNormal"]._data = new_vertex_normal_data
+
+        old_face_normal_data = self._attribute_dict["faceNormal"]._data
+        new_face_normal_data = []
+        for old_normal in old_face_normal_data:
+            new_normal = old_normal.copy()
+            new_normal = rotation_matrix @ new_normal
+            new_face_normal_data.append(new_normal)
+        self._attribute_dict["faceNormal"]._data = new_face_normal_data
+
+        # New data must be uploaded
         self._attribute_dict[variable_name].upload_data()
 
     def count_vertices(self):
@@ -53,5 +74,5 @@ class Geometry:
         """
         for variable_name, attribute_object in self._attribute_dict.items():
             attribute_object._data += other_geometry._attribute_dict[variable_name]._data
-            self._vertex_count = len(attribute_object._data)
+            # New data must be uploaded
             attribute_object.upload_data()

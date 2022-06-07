@@ -12,6 +12,7 @@ from geometry.pyramid import PyramidGeometry
 from geometry.sphere import SphereGeometry
 
 from material.texture import TextureMaterial
+from material.flat import FlatMaterial
 
 class ArrowMesh(Mesh):
     def __init__(self):
@@ -40,10 +41,10 @@ class ArrowMesh(Mesh):
         geometry23 = PlaneGeometry(height=0.525, width=0.75/3)
         geometry24 = PlaneGeometry(height=0.525, width=0.75/3)
 
-        primMetal = TextureMaterial(Texture("images/metal.jpg"))
+        primMetal = FlatMaterial(Texture("images/metal.jpg"))
         secMetal = TextureMaterial(Texture("images/sec-metal.jpg"), property_dict={"repeatUV": [5, 5]})
-        wood = TextureMaterial(Texture("images/wood.jpg"))
-        white = TextureMaterial(Texture("images/white.jpg"), property_dict={"doubleSide": True})
+        wood = FlatMaterial(Texture("images/wood.jpg"))
+        white = FlatMaterial(Texture("images/white.jpg"), property_dict={"doubleSide": True})
         
         self.mesh1 = super().__init__(geometry1,wood)
 

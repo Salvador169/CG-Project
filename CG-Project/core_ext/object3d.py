@@ -1,3 +1,4 @@
+import numpy
 from core.matrix import Matrix
 
 
@@ -120,3 +121,26 @@ class Object3D:
 
     def look_at(self, target_position):
         self._matrix = Matrix.make_look_at(self.global_position, target_position)
+
+    def get_rotation_matrix(self):
+        """Obtains the rotation matrix of the mesh.
+        returns 3x3 sub-matrix with rotation data"""
+        return numpy.array([self._matrix[0][0:3],
+                            self._matrix[1][0:3],
+                            self._matrix[2][0:3]])
+
+    def get_direction(self):
+        """Calculates the direction the object is facing"""
+        forward = numpy.array([0, 0, -1])
+        return list(self.get_rotation_matrix() @ forward)
+
+    def set_direction(self, direction):
+        """Defines the forward direction"""
+        position = self.global_position
+        target_position = [position[0] + direction[0],
+                          position[1] + direction[1],
+                          position[2] + direction[2]]
+        self.look_at(target_position)
+
+        
+

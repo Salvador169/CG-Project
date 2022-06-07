@@ -14,6 +14,9 @@ class PolygonGeometry(Geometry):
         color_data = []
         uv_data = []
         uv_center = [0.5, 0.5]
+        # Normals
+        normal_data = []
+        normal_vector = [0, 0, 1]
         for n in range(sides):
             position_data.append([0, 0, 0])
             position_data.append([radius * cos(n * a), radius * sin(n * a), 0])
@@ -24,9 +27,15 @@ class PolygonGeometry(Geometry):
             uv_data.append(uv_center)
             uv_data.append([cos(n * a) * 0.5 + 0.5, sin(n * a) * 0.5 + 0.5])
             uv_data.append([cos((n + 1) * a) * 0.5 + 0.5, sin((n + 1) * a) * 0.5 + 0.5])
+            # Normals
+            normal_data.append(normal_vector)
+            normal_data.append(normal_vector)
+            normal_data.append(normal_vector)
         self.add_attribute("vec3", "vertexPosition", position_data)
         self.add_attribute("vec3", "vertexColor", color_data)
         self.add_attribute("vec2", "vertexUV", uv_data)
+        self.add_attribute("vec3", "vertexNormal", normal_data)
+        self.add_attribute("vec3", "faceNormal", normal_data)
         self.count_vertices()
 
     @staticmethod

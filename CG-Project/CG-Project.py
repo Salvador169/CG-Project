@@ -42,8 +42,12 @@ from geometry.winning import Winning
 from material.material import Material
 from material.texture import TextureMaterial
 from material.sprite import SpriteMaterial
+from material.flat import FlatMaterial
 
 from light.ambient import AmbientLight
+from light.point import PointLight
+
+
 
 class Example(Base):
     def initialize(self):
@@ -63,13 +67,20 @@ class Example(Base):
         self.arrow.set_position([-0.175,0.3,0])
         self.arrow.rotate_x(-math.pi/2, local=False)
 
-        self.ambient1 = AmbientLight(color=[1, 1, 1])
+        self.ambient1 = AmbientLight(color=[0.9, 0.9, 0.9])
         self.ambient2 = AmbientLight(color=[1, 1, 1])
         self.ambient3 = AmbientLight(color=[0.5, 0.5, 0.5])
         self.ambient4 = AmbientLight(color=[0.8, 0.8, 0.8])
         self.ambient5 = AmbientLight(color=[0.7, 0.7, 0.7])
-
+        self.point1 = PointLight(color=[1, 0, 0], position=[230, -2.9, 0])
+        self.point2 = PointLight(color=[1, 0, 0], position=[200, -2.9, -8])
+        self.point3 = PointLight(color=[1, 0, 0], position=[165, -2.9, 5])
+        self.point4 = PointLight(color=[1, 0, 0], position=[-0.3,5,20])
         self.scene.add(self.ambient1)
+        self.scene.add(self.point1)
+        self.scene.add(self.point2)
+        self.scene.add(self.point3)
+        self.scene.add(self.point4)
 
         vertex_shader_code = """
             uniform mat4 projectionMatrix;
@@ -173,7 +184,7 @@ class Example(Base):
 
         # LEVEL 1
         self.sky_geometry = SphereGeometry(radius=50)
-        self.sky_material = TextureMaterial(texture=Texture(file_name="images/sky1.jpg"), property_dict={"doubleSide": True})
+        self.sky_material = FlatMaterial(texture=Texture(file_name="images/sky1.jpg"), property_dict={"doubleSide": True, "baseColor": [1,1,1]})
         self.sky = Mesh(self.sky_geometry, self.sky_material)
         self.scene.add(self.sky)
         self.grass_geometry = RectangleGeometry(width=100, height=100)
@@ -189,7 +200,7 @@ class Example(Base):
 
         # LEVEL 2
         self.sky_geometry1 = SphereGeometry(radius=50)
-        self.sky_material1 = TextureMaterial(texture=Texture(file_name="images/sky1.jpg"), property_dict={"doubleSide": True})
+        self.sky_material1 = FlatMaterial(texture=Texture(file_name="images/sky1.jpg"), property_dict={"doubleSide": True})
         self.sky1 = Mesh(self.sky_geometry1, self.sky_material1)
         self.sky1.translate(101,0,0)
         self.scene.add(self.sky1)
@@ -206,7 +217,7 @@ class Example(Base):
 
         # LEVEL 3
         self.sky_geometry2 = SphereGeometry(radius=50)
-        self.sky_material2 = TextureMaterial(texture=Texture(file_name="images/night.jpg"), property_dict={"doubleSide": True})
+        self.sky_material2 = FlatMaterial(texture=Texture(file_name="images/night.jpg"), property_dict={"doubleSide": True})
         self.sky2 = Mesh(self.sky_geometry2, self.sky_material2)
         self.sky2.translate(-101,0,0)
         self.scene.add(self.sky2)
@@ -223,7 +234,7 @@ class Example(Base):
 
         # LEVEL 4
         nether_sky_geometry = SphereGeometry(radius=50)
-        nether_sky_material = TextureMaterial(texture=Texture(file_name="images/sky1.jpg"), property_dict={"doubleSide": True})
+        nether_sky_material = FlatMaterial(texture=Texture(file_name="images/sky1.jpg"), property_dict={"doubleSide": True})
         nether_sky = Mesh(nether_sky_geometry, nether_sky_material)
         nether_sky.translate(202,0,0)
         nether_sky_geometry1 = SphereGeometry(radius=49.9)#se der erro meter 49
@@ -250,7 +261,7 @@ class Example(Base):
 
         # LEVEL 5
         end_sky_geometry = SphereGeometry(radius=50)
-        end_sky_material = TextureMaterial(texture=Texture(file_name="images/black_sky.png"), property_dict={"doubleSide": True})
+        end_sky_material = FlatMaterial(texture=Texture(file_name="images/black_sky.png"), property_dict={"doubleSide": True})
         end_sky = Mesh(end_sky_geometry, end_sky_material)
         end_sky.translate(-202,0,0)
         self.scene.add(end_sky)
@@ -1023,7 +1034,7 @@ class Example(Base):
         self.lives = 3
         self.angle = 0
         self.shooting = False
-        self.level = 1
+        self.level = 4
 
         self.tiro = -1
         self.collision = False
@@ -1270,7 +1281,6 @@ class Example(Base):
             self.moveWind = -0.1
         elif self.wind == 5:
             self.moveWind = -0.05
-
         self.sprite2.material.uniform_dict["tileNumber"].data = self.level-1
         if self.cameraRig.isGame == True:
             self.win = False
@@ -1290,6 +1300,18 @@ class Example(Base):
                 self.wind = random.randint(1,2)
                 self.sprite3.material.uniform_dict["tileNumber"].data = self.wind
             if self.lives == 0 and self.collision == True:
+                if self.level == 1 and self.targetsCollided[0] == True:
+                    self.scene.remove(self.ambient1)
+                    self.scene.add(self.ambient2)
+                if self.level == 2 and (self.targetsCollided[1] == True or self.targetsCollided[2] == True):
+                    self.scene.remove(self.ambient2)
+                    self.scene.add(self.ambient3)
+                if self.level == 3 and (self.targetsCollided[3] == True or self.targetsCollided[4] == True or self.targetsCollided[5] == True):
+                    self.scene.remove(self.ambient3)
+                    self.scene.add(self.ambient4)
+                if self.level == 4 and (self.targetsCollided[6] == True or self.targetsCollided[7] == True or self.targetsCollided[8] == True):
+                    self.scene.remove(self.ambient4)
+                    self.scene.add(self.ambient5)
                 if self.level == 1:
                     self.wind = np.random.choice(np.arange(0, 6), p=[0.1, 0.25, 0.25, 0.15, 0.1, 0.15])
                 elif self.level == 2:
@@ -1311,15 +1333,23 @@ class Example(Base):
                     self.level=6
                     self.targetsCollided = [False for i in range(12)]
                 if self.level == 3 and (self.targetsCollided[1] == False or self.targetsCollided[2] == False):
+                    self.scene.remove(self.ambient2)
+                    self.scene.add(self.ambient1)
                     self.level=6
                     self.targetsCollided = [False for i in range(12)]
                 if self.level == 4 and (self.targetsCollided[3] == False or self.targetsCollided[4] == False or self.targetsCollided[5] == False):
+                    self.scene.remove(self.ambient3)
+                    self.scene.add(self.ambient1)
                     self.level=6
                     self.targetsCollided = [False for i in range(12)]
                 if self.level == 5 and (self.targetsCollided[6] == False or self.targetsCollided[7] == False or self.targetsCollided[8] == False):
+                    self.scene.remove(self.ambient4)
+                    self.scene.add(self.ambient1)
                     self.level=6
                     self.targetsCollided = [False for i in range(12)]
                 if self.level == 6 and self.targetsCollided[9] == True and self.targetsCollided[10] == True and self.targetsCollided[11] == True:
+                    self.scene.remove(self.ambient5)
+                    self.scene.add(self.ambient1)
                     self.win = True
                     self.level=6
                     self.targetsCollided = [False for i in range(12)]

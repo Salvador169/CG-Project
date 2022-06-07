@@ -1,4 +1,3 @@
-"""Realizado por Pedro Salvador"""
 from math import sin, cos, pi
 
 from core.matrix import Matrix

@@ -5,6 +5,7 @@ from material.surface import SurfaceMaterial
 from core_ext.mesh import Mesh
 from core_ext.texture import Texture
 from material.texture import TextureMaterial
+from material.flat import FlatMaterial
 
 
 
@@ -15,8 +16,8 @@ class TripeMesh(Mesh):
         geometry = CylinderGeometry(radius=0.2,height=4)
         geometry1= PrismGeometry(radius=0.2,height=1.5,sides=4)
         geometry2= PrismGeometry(radius=0.2,height=4,sides=4)
-        grid_texture = Texture(file_name="images/cimento.jpg")
-        material = TextureMaterial(texture=grid_texture)
+        grid_texture = Texture(file_name="images/wood.jpg")
+        material = FlatMaterial(texture=grid_texture)
         
             
         self.mesh=super().__init__(geometry,material)

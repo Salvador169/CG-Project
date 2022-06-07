@@ -6,6 +6,7 @@ from core_ext.mesh import Mesh
 from core_ext.texture import Texture
 from geometry.polygon import PolygonGeometry
 from geometry.cylindrical import CylindricalGeometry
+from material.flat import FlatMaterial
 
 class TargetMesh(Mesh):
     def __init__(self):
@@ -23,10 +24,10 @@ class TargetMesh(Mesh):
         geometry11 = CylindricalGeometry(height=0.02, height_segments=1, radial_segments=100, radius_top=0.23, radius_bottom=0.23, closed_bottom=False, closed_top=False)
         geometry12 = CylindricalGeometry(height=0.02, height_segments=1, radial_segments=100, radius_top=0.23, radius_bottom=0.205, closed_bottom=False, closed_top=False)
 
-        madeira = TextureMaterial(Texture(file_name="images/madeira.jpg"))
-        alvo = TextureMaterial(Texture(file_name="images/alvo.jpg"))
-        red = TextureMaterial(Texture(file_name="images/red.jpg"))
-        white = TextureMaterial(Texture(file_name="images/clear_white.jpg"))
+        madeira = FlatMaterial(Texture(file_name="images/madeira.jpg"))
+        alvo = FlatMaterial(Texture(file_name="images/alvo.jpg"))
+        red = FlatMaterial(Texture(file_name="images/red.jpg"))
+        white = FlatMaterial(Texture(file_name="images/clear_white.jpg"))
         
 
         self.mesh = super().__init__(geometry,madeira)

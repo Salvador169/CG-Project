@@ -42,7 +42,7 @@ class TextureMaterial(Material):
         self.add_uniform("vec2", "offsetUV", [0.0, 0.0])
         self.locate_uniforms()
         # Render both sides?
-        self.setting_dict["doubleSide"] = False
+        self.setting_dict["doubleSide"] = True
         # Render triangles as wireframe?
         self.setting_dict["wireframe"] = False
         # line thickness for wireframe rendering
