@@ -1022,7 +1022,7 @@ class Example(Base):
         self.lives = 3
         self.angle = 0
         self.shooting = False
-        self.level = 4
+        self.level = 1
 
         self.tiro = -1
         self.collision = False
