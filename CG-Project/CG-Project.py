@@ -76,7 +76,7 @@ class Example(Base):
         self.point2 = PointLight(color=[1, 0, 0], position=[200, -2.9, -8])
         self.point3 = PointLight(color=[1, 0, 0], position=[165, -2.9, 5])
         self.point4 = PointLight(color=[1, 0, 0], position=[200,5,20])
-        self.scene.add(self.ambient3)
+        self.scene.add(self.ambient1)
 
 
         vertex_shader_code = """
@@ -1031,7 +1031,7 @@ class Example(Base):
         self.lives = 3
         self.angle = 0
         self.shooting = False
-        self.level = 3
+        self.level = 1
 
         self.tiro = -1
         self.collision = False
